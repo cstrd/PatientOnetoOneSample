@@ -1,6 +1,7 @@
 package com.therightdoctors.patientonetoonesample.ui;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -14,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -268,10 +270,35 @@ public class PreviewControlFragment extends Fragment implements SignalListener {
                 mActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(mActivity, "Doctor has Disconnected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mActivity, "Doctor has Disconnected", Toast.LENGTH_LONG).show();
                         mActivity.getWrapper().getSession().sendSignal("Started","bye");
                         mActivity.getWrapper().disconnect();
-                        mActivity.finish();
+                        final Dialog dialog = new Dialog(mActivity);
+                        dialog.setContentView(R.layout.custom);
+
+                        TextView set=(TextView)dialog.findViewById(R.id.nodata);
+                        set.setText("your Doctor has Disconnected your Consultation completed. the time duation are sent to server ");
+                        // Button cancel=(Button)dialog.findViewById(R.id.cancel);
+                        Button ok=(Button)dialog.findViewById(R.id.ok);
+                   /*cancel.setOnClickListener(new View.OnClickListener() {
+                       @Override
+                       public void onClick(View v) {
+                           dialog.dismiss();
+                       }
+                   });*/
+                        ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                              
+                             
+                                dialog.dismiss();
+                                mActivity.finish();
+
+                            }
+                        });
+                        dialog.show();
+                      
 
                     }
                 });
